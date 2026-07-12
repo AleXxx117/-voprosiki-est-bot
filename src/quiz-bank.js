@@ -1,6 +1,8 @@
 import { randomInt } from "node:crypto";
 
-export const quizItems = [
+import { advancedQuizItems } from "./quiz-bank-advanced.js";
+
+const baseQuizItems = [
   {
     id: "p01", categoryKey: "psychology", answer: "эмпатия",
     question: "Как называется способность понимать чувства и переживания другого человека?",
@@ -440,7 +442,22 @@ export const quizItems = [
   }
 ];
 
+export const quizItems = [
+  ...baseQuizItems.map((item) => ({ difficulty: "medium", ...item })),
+  ...advancedQuizItems
+];
+
 const byId = new Map(quizItems.map((item) => [item.id, item]));
+
+export function getDifficultyLabel(difficulty) {
+  if (difficulty === "expert") {
+    return "Экспертный";
+  }
+  if (difficulty === "hard") {
+    return "Сложный";
+  }
+  return "Средний";
+}
 
 export function getQuizItem(id) {
   return byId.get(id) ?? null;
