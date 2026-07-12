@@ -97,7 +97,7 @@ export function gameQuestionText(session, item) {
     "",
     escapeHtml(item.question),
     "",
-    `<b>Слово.</b> ${escapeHtml(maskAnswer(item.answer, current.revealedIndices))}`
+    `<b>Ответ.</b> ${escapeHtml(maskAnswer(item.answer, current.revealedIndices))}`
   ];
 
   if (current.stage >= 1) {
