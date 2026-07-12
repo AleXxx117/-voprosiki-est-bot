@@ -84,10 +84,21 @@ function resolveCategory(value, fallback = "all") {
 }
 
 function scoreForStage(current) {
-  if (current.stage === 0) return 5;
-  if (current.stage === 1) return 4;
-  if (current.stage === 2) return 3;
-  return current.revealedIndices.length <= 1 ? 2 : 1;
+  let basePoints;
+  if (current.stage === 0) {
+    basePoints = 5;
+  } else if (current.stage === 1) {
+    basePoints = 4;
+  } else if (current.stage === 2) {
+    basePoints = 3;
+  } else {
+    basePoints = current.revealedIndices.length <= 1 ? 2 : 1;
+  }
+
+  const difficultyBonus = current.difficulty === "expert"
+    ? 2
+    : current.difficulty === "hard" ? 1 : 0;
+  return basePoints + difficultyBonus;
 }
 
 export class VoprosikiBot {
@@ -472,6 +483,7 @@ export class VoprosikiBot {
       itemId: item.id,
       token: `quiz_${session.id}_${session.roundNumber}`,
       stage: 0,
+      difficulty: item.difficulty,
       revealedIndices: [],
       maxReveals: Math.min(5, Math.max(1, Math.ceil(validIndices.length * 0.45))),
       messageId: null,
@@ -766,6 +778,7 @@ export class VoprosikiBot {
         "До подсказок правильный ответ приносит 5 очков.",
         "После первой подсказки начисляется 4 очка, после второй 3 очка.",
         "Когда начинают открываться буквы, можно получить 1 или 2 очка.",
+        "За сложный вопрос добавляется 1 очко, за экспертный — 2 очка.",
         "Если ответа нет, бот сам даёт две подсказки, затем открывает по одной букве.",
         "Кнопками можно пропустить раунд или полностью остановить игру.",
         "",
