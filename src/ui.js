@@ -1,5 +1,5 @@
 import { categories, formatQuestionCount } from "./question-engine.js";
-import { maskAnswer } from "./quiz-bank.js";
+import { getDifficultyLabel, maskAnswer } from "./quiz-bank.js";
 
 export function escapeHtml(value) {
   return String(value)
@@ -93,6 +93,7 @@ export function gameQuestionText(session, item) {
     `<b>Вопросики есть. Раунд ${session.roundNumber} из ${session.totalRounds}</b>`,
     "",
     `${category.emoji} <b>${escapeHtml(category.title)}</b>`,
+    `🧩 Сложность. <b>${escapeHtml(getDifficultyLabel(item.difficulty))}</b>`,
     "",
     escapeHtml(item.question),
     "",
@@ -117,7 +118,9 @@ export function welcomeText() {
   return [
     "<b>Вопросики есть</b>",
     "",
-    "Выбирай тему и количество раундов. Отвечай одним словом. Если ответа долго нет, бот сам даст две подсказки, а потом начнёт открывать по одной букве.",
+    "Выбирай тему и количество раундов. В игре 180 разнообразных заданий среднего, сложного и экспертного уровня. Ответ может состоять из одного или нескольких слов.",
+    "",
+    "Если ответа долго нет, бот сам даст две подсказки, а потом начнёт открывать по одной букве.",
     "",
     `Также внутри есть ${formatQuestionCount()} вопросов без единственного правильного ответа.`,
     "",
