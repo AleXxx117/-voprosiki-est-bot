@@ -1,0 +1,25 @@
+{
+  "name": "voprosiki-est-telegram-bot",
+  "version": "1.0.0",
+  "description": "Telegram-игра «Вопросики есть» с миллионом психологических и жизненных вопросов",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node --test",
+    "count": "node scripts/count-questions.js",
+    "check": "npm test && npm run count"
+  },
+  "keywords": [
+    "telegram",
+    "bot",
+    "questions",
+    "game",
+    "psychology"
+  ],
+  "license": "MIT"
+}
