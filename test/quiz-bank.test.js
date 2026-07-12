@@ -8,14 +8,15 @@ import {
   letterIndices,
   maskAnswer,
   normalizeAnswer,
+  randomQuizItem,
   quizItems
 } from "../src/quiz-bank.js";
 
 test("банк игры покрывает все темы", () => {
-  assert.equal(quizItems.length, 72);
+  assert.equal(quizItems.length, 180);
   assert.equal(new Set(quizItems.map((item) => item.id)).size, quizItems.length);
   for (const key of getCategoryKeys()) {
-    assert.equal(getQuizItems(key).length, 12);
+    assert.equal(getQuizItems(key).length, 30);
   }
 });
 
@@ -25,6 +26,19 @@ test("каждый игровой вопрос имеет ответ и две �
     assert.ok(item.answer.length >= 3);
     assert.equal(item.hints.length, 2);
     assert.ok(item.hints.every(Boolean));
+    assert.ok(["medium", "hard", "expert"].includes(item.difficulty));
+  }
+});
+
+test("в игре на 30 раундов вопросы одной темы не повторяются", () => {
+  for (const key of getCategoryKeys()) {
+    const usedIds = [];
+    for (let round = 0; round < 30; round += 1) {
+      const item = randomQuizItem(key, usedIds);
+      assert.equal(usedIds.includes(item.id), false);
+      usedIds.push(item.id);
+    }
+    assert.equal(new Set(usedIds).size, 30);
   }
 });
 
