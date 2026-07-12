@@ -69,10 +69,12 @@ export function parseTimeList(value = "10:00,19:00") {
 export function loadConfig() {
   loadEnvFile();
 
-  const token = process.env.BOT_TOKEN?.trim() ?? "";
+  const token = process.env.BOT_TOKEN?.trim()
+    || process.env.TELEGRAM_BOT_TOKEN?.trim()
+    || "";
   if (!token) {
     throw new Error(
-      "Не найден BOT_TOKEN. Скопируй .env.example в .env и вставь новый токен BotFather."
+      "Не найден BOT_TOKEN или TELEGRAM_BOT_TOKEN. Добавь новый токен BotFather в переменные сервиса."
     );
   }
 
